@@ -7,9 +7,11 @@ if "history" not in st.session_state:
 
 st.title(" Unit Converter App")
 
-col1, col2 = st.columns(2)
+unit_converter=st.selectbox("Select Conversion Type", ["Distance", "Temperature", "Weight", "Currency"])
 
-with col1:
+
+if unit_converter=="Distance":
+
     st.subheader("Distance")
     km = st.number_input("Kilometers", value=0.0, key="km")
     if st.button("Convert KM → Miles"):
@@ -25,7 +27,7 @@ with col1:
         st.success(result)
         st.session_state.history.append(result)
 
-with col2:
+elif unit_converter=="Temperature":
     st.subheader("Temperature")
     c = st.number_input("Celsius", value=0.0, key="c")
     if st.button("Convert °C → °F"):
@@ -41,11 +43,7 @@ with col2:
         st.success(result)
         st.session_state.history.append(result)
 
-st.divider()
-
-col3, col4 = st.columns(2)
-
-with col3:
+elif unit_converter=="Weight":
     st.subheader("Weight")
     kg = st.number_input("Kilograms", value=0.0, key="kg")
     if st.button("Convert KG → Pounds"):
@@ -61,7 +59,8 @@ with col3:
         st.success(result)
         st.session_state.history.append(result)
 
-with col4:
+
+elif unit_converter=="Currency":
     st.subheader("Currency")
     st.caption("1 USD = ₹83")
 
@@ -79,14 +78,14 @@ with col4:
         st.success(result)
         st.session_state.history.append(result)
 
-st.divider()
 
 st.subheader(" Conversion History")
-if st.session_state.history:
-    for i, item in enumerate(reversed(st.session_state.history), start=1):
-        st.write(f"{i}. {item}")
-else:
-    st.info("No conversions yet")
+with st.expander("History"):
+    if st.session_state.history:
+        for i, item in enumerate(reversed(st.session_state.history), start=1):
+            st.write(f"{i}. {item}")
+    else:
+        st.info("No conversions yet")
 
 if st.button("Clear History"):
     st.session_state.history.clear()
